@@ -910,8 +910,10 @@ public class AZTabBarController: UIViewController {
             }else{
                 color = buttonsColors[i] ?? self.selectedColor ?? UIColor.black
             }
-            button.titleLabel?.lineBreakMode = .byWordWrapping
-            button.titleLabel?.textAlignment = .center  
+            if i == 2 {
+                button.titleLabel?.lineBreakMode = .byWordWrapping
+                button.titleLabel?.textAlignment = .center
+            }
             button.titleLabel?.font = font
             
             button.setTitleColor(buttonsColors[i] ?? selectedColor, for: .selected)
