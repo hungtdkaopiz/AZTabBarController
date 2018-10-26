@@ -542,8 +542,8 @@ public class AZTabBarController: UIViewController {
         if let buttons = buttons{
             if index < buttons.count{
                 self.notificationBadgeAppearance.backgroundColor = UIColor.clear
-                self.notificationBadgeAppearance.distanceFromCenterX = 1
-                self.notificationBadgeAppearance.distanceFromCenterY = -9.5
+                self.notificationBadgeAppearance.distanceFromCenterX = 0.5
+                self.notificationBadgeAppearance.distanceFromCenterY = -8.5
                 let button = buttons[index] as! AZTabBarButton
                 button.addBadge(text: text, appearance: notificationBadgeAppearance)
             }
@@ -566,10 +566,15 @@ public class AZTabBarController: UIViewController {
         if let buttons = buttons{
             if index < buttons.count{
                 let button = buttons[index]
-                
-                button.setTitleColor(buttonsColors[index] ?? selectedColor, for: .selected)
-                button.setTitleColor(buttonsColors[index] ?? selectedColor, for: [.selected,.highlighted])
-                button.setTitleColor(defaultColor, for: [])
+                if index == 1 {
+                    button.setTitleColor(highlightedBackgroundColor, for: .selected)
+                    button.setTitleColor(highlightedBackgroundColor, for: [.selected,.highlighted])
+                    button.setTitleColor(highlightedBackgroundColor, for: [])
+                } else {
+                    button.setTitleColor(buttonsColors[index] ?? selectedColor, for: .selected)
+                    button.setTitleColor(buttonsColors[index] ?? selectedColor, for: [.selected,.highlighted])
+                    button.setTitleColor(defaultColor, for: [])
+                }
                 
                 if onlyShowTextForSelectedButtons{
                     button.setTitle(nil, for: .normal)
@@ -910,15 +915,21 @@ public class AZTabBarController: UIViewController {
             }else{
                 color = buttonsColors[i] ?? self.selectedColor ?? UIColor.black
             }
-            if i == 2 {
+            if i == 2 || i == 4 {
                 button.titleLabel?.lineBreakMode = .byWordWrapping
                 button.titleLabel?.textAlignment = .center
             }
             button.titleLabel?.font = font
             
-            button.setTitleColor(buttonsColors[i] ?? selectedColor, for: .selected)
-            button.setTitleColor(buttonsColors[i] ?? selectedColor, for: [.selected,.highlighted])
-            button.setTitleColor(defaultColor, for: [])
+            if i == 1 {
+                button.setTitleColor(UIColor.white, for: .selected)
+                button.setTitleColor(UIColor.white, for: [.selected,.highlighted])
+                button.setTitleColor(highlightedBackgroundColor, for: [])
+            } else {
+                button.setTitleColor(buttonsColors[i] ?? selectedColor, for: .selected)
+                button.setTitleColor(buttonsColors[i] ?? selectedColor, for: [.selected,.highlighted])
+                button.setTitleColor(defaultColor, for: [])
+            }
             
             let title: String? = button.title(for: []) ?? button.title(for: .selected)
             
@@ -930,7 +941,7 @@ public class AZTabBarController: UIViewController {
             }else{
                 button.setTitle(title, for: [])
             }
-            if i == 2 {
+            if i == 2 || i == 4 {
                 //                button.titleLabel?.center = CGPoint(x: button.bounds.midX, y: button.bounds.midY)
                 button.contentEdgeInsets = UIEdgeInsetsMake(3, 0, -3, 0)
             } else {
